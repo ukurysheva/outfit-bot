@@ -31,13 +31,23 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
       - name: lint
-        uses: Mushus/golangci-linter@v1.1.2
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.59
 
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+            go-version: '1.22'
       - name: test
-        uses: robherley/go-test-action@v0
+        uses: go test ./... -v -tags unit -race
 
