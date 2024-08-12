@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: set up go
         uses: actions/setup-go@v5
         with:
@@ -49,5 +48,5 @@ jobs:
         with:
             go-version: '1.22'
       - name: test
-        uses: go test ./... -v -tags unit -race
+        run: go test ./... -v -tags unit -race
 
