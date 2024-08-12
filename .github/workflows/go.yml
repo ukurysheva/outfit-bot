@@ -31,4 +31,4 @@ jobs:
       uses: Mushus/golangci-linter@v1.1.2
 
     - name: test
-      run: go test -v -tags unit -race
+      run: go test ./... -v -tags unit -race
