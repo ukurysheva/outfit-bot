@@ -32,3 +32,7 @@ lint:
 
 .PHONY: prepare
 prepare: format lint build
+
+.PHONY: test
+test:
+	go test ./... -v -tags unit -race
