@@ -39,5 +39,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: go test ./... -v -tags unit -race
+        uses: robherley/go-test-action@v0
 
