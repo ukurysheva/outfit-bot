@@ -61,7 +61,7 @@ jobs:
       - name: check_files
         run: ls -al
       - name: build
-        run: go build -o $BIN_PATH/service ./cmd/service
+        run: env CGO_ENABLED=0 go build -o $BIN_PATH/service ./cmd/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
@@ -82,4 +82,4 @@ jobs:
             echo "stop previous bot...."
             docker stop outfitbot-app-1
             echo "start running bot...."
-            docker-compose up -d
+            docker compose up -d
