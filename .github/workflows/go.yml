@@ -24,7 +24,7 @@ jobs:
           go-version: '1.22'
 
       - name: build
-        run: go build -o $BUILD_PATH/service ./cmd/service | ls -lR
+        run: go build -o $BUILD_PATH/service ./cmd/service
 
   lint:
     needs: build
@@ -58,8 +58,6 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
-      - name: build
-        run: go build -o $BUILD_PATH/service ./cmd/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
@@ -70,10 +68,11 @@ jobs:
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SCRIPT_BEFORE: |
             whoami
-            ls -al
             pwd
           SCRIPT_AFTER: |
             whoami
             pwd
+            echo "files list"
+            ls -al
             echo "start running bot...."
-            build/service
+            make up
