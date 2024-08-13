@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  BIN_PATH: ./bin
+  BUILD_PATH: ./build
   
 jobs:
 
@@ -24,12 +24,12 @@ jobs:
           go-version: '1.22'
 
       - name: build
-        run: go build -o $BIN_PATH/service ./cmd/service | ls -lR
+        run: go build -o $BUILD_PATH/service ./cmd/service | ls -lR
 
       - uses: actions/upload-artifact@master
         with:
           name: app-build
-          path: $BIN_PATH
+          path: $BUILD_PATH/service
 
   lint:
     needs: build
@@ -66,12 +66,12 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: app-build
-          path: $BIN_PATH
+          path: $BUILD_PATH/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: $BIN_PATH
+          SOURCE: $BUILD_PATH
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
@@ -83,4 +83,4 @@ jobs:
             whoami
             pwd
             echo "start running bot...."
-            $BIN_PATH/service
+            $BUILD_PATH/service
