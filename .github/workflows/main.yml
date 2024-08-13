@@ -8,42 +8,8 @@ env:
   BIN_PATH: ./bin
   
 jobs:
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: set up go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: build
-        run: go build -o $BIN_PATH/service ./cmd/service
-
-  lint:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-      - name: lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: v1.59
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-            go-version: '1.22'
-      - name: test
-        run: go test ./... -v -tags unit -race
+  prepare:
+    uses: ./.github/workflows/prepare.yml
 
   deploy:
     needs: [test, lint]
