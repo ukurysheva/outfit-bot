@@ -61,7 +61,7 @@ jobs:
       - name: check_files
         run: ls -al
       - name: build
-        run: env CGO_ENABLED=0 go build -o $BIN_PATH/service ./cmd/service
+        run: env GOOS=linux CGO_ENABLED=0 go build -o $BIN_PATH/service ./cmd/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
@@ -71,6 +71,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SCRIPT_BEFORE: |
+            echo "${{ secrets.ENV_FILE }}" > .env
             whoami
             pwd
           SCRIPT_AFTER: |
@@ -82,4 +83,4 @@ jobs:
             echo "stop previous bot...."
             docker stop outfitbot-app-1
             echo "start running bot...."
-            docker compose up -d
+            docker-compose build --no-cache && docker-compose up
