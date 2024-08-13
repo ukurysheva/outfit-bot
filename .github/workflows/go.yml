@@ -24,12 +24,12 @@ jobs:
           go-version: '1.22'
 
       - name: build
-        run: go build -o /build/service ./cmd/service | ls -lR
+        run: go build -o $BUILD_PATH/service ./cmd/service | ls -lR
 
       - uses: actions/upload-artifact@master
         with:
           name: app-build
-          path: /build/service
+          path: $BUILD_PATH/service
 
   lint:
     needs: build
