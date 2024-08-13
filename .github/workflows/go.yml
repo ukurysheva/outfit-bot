@@ -58,6 +58,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+      - name: store envs
+        run: echo "${{ secrets.ENV_FILE }}" > .env
       - name: check_files
         run: ls -al
       - name: build
@@ -71,7 +73,6 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SCRIPT_BEFORE: |
-            echo "${{ secrets.ENV_FILE }}" > .env
             whoami
             pwd
           SCRIPT_AFTER: |
@@ -80,7 +81,5 @@ jobs:
             pwd
             echo "files list"
             ls -al
-            echo "stop previous bot...."
-            docker stop outfitbot-app-1
             echo "start running bot...."
-            docker compose down && docker compose build --no-cache && docker compose up
+            docker compose down && docker compose build --no-cache && docker compose up -d
