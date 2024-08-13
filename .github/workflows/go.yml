@@ -76,5 +76,4 @@ jobs:
             whoami
             pwd
             echo "start running bot...."
-            go build -o $BUILD_PATH/service ./cmd/service | ls -lR
             $BUILD_PATH/service
