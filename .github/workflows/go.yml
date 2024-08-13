@@ -74,6 +74,7 @@ jobs:
             whoami
             pwd
           SCRIPT_AFTER: |
+            cd outfit-bot
             whoami
             pwd
             echo "files list"
