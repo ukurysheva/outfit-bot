@@ -4,7 +4,7 @@ BIN_PATH  = $(ROOT_PATH)/bin
 .PHONY: build
 build:
 	$(info * Building ...)
-	env CGO_ENABLED=0  go build -o $(BIN_PATH)/service $(ROOT_PATH)/cmd/service
+	env GOOS=linux  CGO_ENABLED=0  go build -o $(BIN_PATH)/service $(ROOT_PATH)/cmd/service
 
 .PHONY: run
 run:
@@ -32,3 +32,7 @@ lint:
 
 .PHONY: prepare
 prepare: format lint build
+
+.PHONY: test
+test:
+	go test ./... -v -tags unit -race

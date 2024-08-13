@@ -74,13 +74,15 @@ type Weather struct {
 		UvIndexMax     string `json:"uv_index_max"`
 		RainSum        string `json:"rain_sum"`
 	} `json:"daily_units"`
-	Daily struct {
-		Time                     []string  `json:"time"`
-		WeatherCode              []int     `json:"weather_code"`
-		TemperatureMax           []float64 `json:"temperature_2m_max"`
-		TemperatureMin           []float64 `json:"temperature_2m_min"`
-		UvIndexMax               []float64 `json:"uv_index_max"`
-		PrecipitationProbability []int     `json:"precipitation_probability_max"`
-		RainSum                  []int     `json:"rain_sum"`
-	} `json:"daily"`
+	Daily WeatherDaily `json:"daily"`
+}
+
+type WeatherDaily struct {
+	Time                     []string  `json:"time"`
+	WeatherCode              []int     `json:"weather_code"`
+	TemperatureMax           []float64 `json:"temperature_2m_max"`
+	TemperatureMin           []float64 `json:"temperature_2m_min"`
+	UvIndexMax               []float64 `json:"uv_index_max"`
+	PrecipitationProbability []int     `json:"precipitation_probability_max"`
+	RainSum                  []int     `json:"rain_sum"`
 }

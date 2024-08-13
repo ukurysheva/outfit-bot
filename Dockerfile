@@ -1,7 +1,7 @@
 FROM alpine:3.18
 
-WORKDIR /app
-
-COPY bin ./
+COPY bin/service /app/service
+COPY .env /app/.env
+WORKDIR /app/
 
 CMD ["/app/service"]
