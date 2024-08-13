@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  BUILD_PATH: ./build
+  BIN_PATH: ./bin
   
 jobs:
 
@@ -24,7 +24,7 @@ jobs:
           go-version: '1.22'
 
       - name: build
-        run: go build -o $BUILD_PATH/service ./cmd/service
+        run: go build -o $BIN_PATH/service ./cmd/service
 
   lint:
     needs: build
@@ -58,6 +58,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+      - name: build
+        run: go build -o $BIN_PATH/service ./cmd/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
@@ -74,5 +76,7 @@ jobs:
             pwd
             echo "files list"
             ls -al
+            echo "stop previous bot...."
+            docker stop outfitbot-app-1
             echo "start running bot...."
-            make up
+            docker-compose up -d
