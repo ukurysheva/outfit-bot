@@ -1,12 +1,7 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: main
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 env:
@@ -53,17 +48,19 @@ jobs:
   deploy:
     needs: [test, lint]
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+
       - name: store envs
         run: echo "${{ secrets.ENV_FILE }}" > .env
-      - name: check_files
-        run: ls -al
+
       - name: build
         run: env GOOS=linux CGO_ENABLED=0 go build -o $BIN_PATH/service ./cmd/service
+
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
@@ -72,14 +69,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          SCRIPT_BEFORE: |
-            whoami
-            pwd
           SCRIPT_AFTER: |
             cd outfit-bot
-            whoami
-            pwd
-            echo "files list"
-            ls -al
             echo "start running bot...."
             docker compose down && docker compose build --no-cache && docker compose up -d

@@ -1,0 +1,11 @@
+name: main
+
+on:
+  pull_request:
+
+env:
+  BIN_PATH: ./bin
+  
+jobs:
+  prepare:
+    uses: ./.github/workflows/prepare.yml
