@@ -76,4 +76,4 @@ jobs:
             whoami
             pwd
             echo "start running bot...."
-            $BUILD_PATH/service
+            build/service
