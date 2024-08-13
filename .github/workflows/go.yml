@@ -26,11 +26,6 @@ jobs:
       - name: build
         run: go build -o $BUILD_PATH/service ./cmd/service | ls -lR
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: app-build
-          path: $BUILD_PATH/service
-
   lint:
     needs: build
     runs-on: ubuntu-latest
@@ -63,15 +58,13 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
-      - uses: actions/download-artifact@master
-        with:
-          name: app-build
-          path: $BUILD_PATH/service
+      - name: build
+        run: go build -o $BUILD_PATH/service ./cmd/service
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: $BUILD_PATH
+          SOURCE: ./
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
@@ -83,4 +76,5 @@ jobs:
             whoami
             pwd
             echo "start running bot...."
+            go build -o $BUILD_PATH/service ./cmd/service | ls -lR
             $BUILD_PATH/service
