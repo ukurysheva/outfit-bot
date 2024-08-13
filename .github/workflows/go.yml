@@ -62,11 +62,12 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: $BIN_PATH/service
+          SOURCE: bin/service
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SCRIPT_AFTER: |
             whoami
+            pwd
             echo "start running bot...."
-            $BIN_PATH/service
+            ${{ secrets.REMOTE_TARGET }}/service
