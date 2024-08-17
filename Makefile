@@ -1,16 +1,23 @@
 ROOT_PATH = $(shell pwd)
 BIN_PATH  = $(ROOT_PATH)/bin
 
+GO_MODULES_FINDER = find $(ROOT_PATH) -type f -name go.mod \
+	-not -path "$(ROOT_PATH)/cmd/*" \
+	-not -path "$(ROOT_PATH)/.*"
+
+GO_PACKAGES = $(shell $(GO_MODULES_FINDER) -exec sh -c "cd \$$(dirname {}) && go list ./..." \; | sort | uniq | grep -v "mock" | head -c-1 | tr "\n" " ")
+
+
 .PHONY: build
 build:
 	$(info * Building ...)
-	env GOOS=linux  CGO_ENABLED=0  go build -o $(BIN_PATH)/service $(ROOT_PATH)/cmd/service
+	env GOOS=linux  CGO_ENABLED=0 IS_DEV=1 go build -o $(BIN_PATH)/service $(ROOT_PATH)/cmd/service
 
 .PHONY: run
 run:
 	make build
 	$(info * Run service ...)
-	$(BIN_PATH)/service
+	go run $(ROOT_PATH)/cmd/service -dev
 
 .PHONY: up
 up:
@@ -20,7 +27,7 @@ up:
 
 .PHONY: down
 down:
-	docker stop outfitbot-app-1
+	docker-compose down
 
 .PHONY: format
 format:
@@ -31,8 +38,8 @@ lint:
 	golangci-lint run
 
 .PHONY: prepare
-prepare: format lint build
+prepare: format lint build test
 
 .PHONY: test
 test:
-	go test ./... -v -tags unit -race
+	env TG_LOGGER_TOKEN=test TG_LOGGER_CHAT_ID=3333 go test ./... -v -tags unit -race $(GO_PACKAGES)

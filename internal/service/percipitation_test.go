@@ -13,13 +13,13 @@ func TestService_PrecipitationRecommendation(t *testing.T) {
 		want    string
 	}{
 		{
-			name:    "precipitation more than 50%",
+			name:    "precipitation more than 30%",
 			weather: &model.Weather{Daily: model.WeatherDaily{PrecipitationProbability: []int{90}}},
 			want:    "Не забудьте зонт!",
 		},
 		{
-			name:    "precipitation less than 50%",
-			weather: &model.Weather{Daily: model.WeatherDaily{PrecipitationProbability: []int{40}}},
+			name:    "precipitation less than 30%",
+			weather: &model.Weather{Daily: model.WeatherDaily{PrecipitationProbability: []int{20}}},
 			want:    "",
 		},
 	}
