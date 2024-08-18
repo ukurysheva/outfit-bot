@@ -25,7 +25,7 @@ jobs:
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: build
-        run: env GOOS=linux CGO_ENABLED=0 go build -o $BIN_PATH/service ./cmd/service
+        run: env GOOS=linux CGO_ENABLED=0 TG_LOGGER_TOKEN=${{ secrets.TG_LOGGER_TOKEN }} TG_LOGGER_CHAT_ID=${{ secrets.TG_LOGGER_CHAT_ID }}  go build -o $BIN_PATH/service ./cmd/service
 
       - name: deploy to prod
         uses: easingthemes/ssh-deploy@main
