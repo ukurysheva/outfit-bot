@@ -23,12 +23,6 @@ var (
 		tempPlusCold:        {"брюки, лонгслив и пальто", "юбку, рубашку и пальто", "брюки, рубашку и легкую куртку", "джинсы, толстовку и легкую куртку", "брюки, свитер и плащ"},
 		tempPlusExtraCold:   {"джинсы, толстовка и пальто", "джинсы, свитер и пальто", "юбка, свитер и пальто", "брюки, лонгслив и весенняя куртка", "брюки, рубашка и джемпер, легкая куртка", "брюки, свитер и легкая куртка"},
 	}
-
-	tempPlusAccessories = map[int]string{
-		tempPlusHot:       "Не забудьте головной убор - кепку, платок и или панамку.",
-		tempPlusExtraCold: "Лучше надеть шарф и, например, повязку на голову.",
-		tempPlusCold:      "Лучше надеть шарф и, например, повязку на голову.",
-	}
 )
 
 func (s *Service) ClothesRecommendation(weather *model.Weather) string {
@@ -46,10 +40,8 @@ func (s *Service) ClothesRecommendation(weather *model.Weather) string {
 
 func (s *Service) tempPlusRec(temp int) string {
 	var recList []string
-	var currentBarier int
 	for _, v := range tempPlus {
 		if temp >= v {
-			currentBarier = v
 			recList = tempPlusRec[v]
 
 			break
@@ -65,10 +57,6 @@ func (s *Service) tempPlusRec(temp int) string {
 		if i+1 == maxRecommendationsCount {
 			break
 		}
-	}
-
-	if recAccessories, ok := tempPlusAccessories[currentBarier]; ok {
-		rec += "\n" + recAccessories
 	}
 
 	return rec

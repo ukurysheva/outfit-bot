@@ -42,6 +42,7 @@ func (s *Service) GenerateWeatherMsg(cityTitle string, weather *model.Weather) s
 	}
 
 	msg += "\n\n" + s.ClothesRecommendation(weather)
+	msg += "\n\n" + s.UvIndexRecommendation(weather)
 
 	if precipitationRec := s.PrecipitationRecommendation(weather); precipitationRec != "" {
 		msg += "\n\n" + precipitationRec

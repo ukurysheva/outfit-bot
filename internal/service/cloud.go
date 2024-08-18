@@ -6,7 +6,7 @@ var (
 	cloudFull       = 85
 	cloudAlmostFull = 55
 	cloudLittle     = 25
-	cloudAbsent     = 25
+	cloudAbsent     = 0
 
 	cloud = []int{cloudFull, cloudAlmostFull, cloudLittle, cloudAbsent}
 
