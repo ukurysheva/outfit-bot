@@ -14,6 +14,10 @@ const (
 )
 
 func (s *Service) PrecipitationInfo(weather *model.Weather) string {
+	if len(weather.Daily.PrecipitationProbability) == 0 {
+		return ""
+	}
+
 	return fmt.Sprintf(precipitationTmpl, s.getPrecipitationEmoji(weather.Daily.PrecipitationProbability[0]), weather.Daily.PrecipitationProbability[0])
 }
 

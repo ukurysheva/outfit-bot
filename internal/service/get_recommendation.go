@@ -36,16 +36,15 @@ func (s *Service) GenerateWeatherMsg(cityTitle string, weather *model.Weather) s
 	msg := s.CityInfo(cityTitle)
 	msg += "\n\n" + s.TempInfo(weather)
 	msg += "\n\n" + s.WindInfo(weather)
+	msg += "\n\n" + s.PrecipitationInfo(weather)
+	msg += "\n\n" + s.ClothesRecommendation(weather)
 
-	if len(weather.Daily.PrecipitationProbability) > 0 {
-		msg += "\n\n" + s.PrecipitationInfo(weather)
+	if rec := s.UvIndexRecommendation(weather); rec != "" {
+		msg += "\n\n" + rec
 	}
 
-	msg += "\n\n" + s.ClothesRecommendation(weather)
-	msg += "\n\n" + s.UvIndexRecommendation(weather)
-
-	if precipitationRec := s.PrecipitationRecommendation(weather); precipitationRec != "" {
-		msg += "\n\n" + precipitationRec
+	if rec := s.PrecipitationRecommendation(weather); rec != "" {
+		msg += "\n\n" + rec
 	}
 
 	return msg

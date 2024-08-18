@@ -4,6 +4,7 @@ import "outfitbot/internal/model"
 
 const (
 	uvIndexMediumLevel = 3
+	uvIndexHighLevel   = 5
 	uvIndexExtraLevel  = 8
 )
 
@@ -16,9 +17,11 @@ func (s *Service) UvIndexRecommendation(weather *model.Weather) string {
 	rec := ""
 
 	if uvIndex >= uvIndexExtraLevel {
-		rec = "Солнце сегодня очень мощное - обязательно нанесите SPF 30+, наденьте головной убор и избегайте прямых лучей."
+		rec = "Обязательно нанесите SPF 30+, наденьте головной убор и избегайте прямых лучей."
+	} else if uvIndex >= uvIndexHighLevel {
+		rec = "Обязательно нанесите SPF 15+ и наденьте головной убор."
 	} else if uvIndex >= uvIndexMediumLevel {
-		rec = "Солнце сегодня в ударе - рекомендуем нанести SPF 15+ и надеть головной убор."
+		rec = "Рекомендуем нанести SPF 15+."
 	}
 
 	return rec
