@@ -17,7 +17,7 @@ build:
 run:
 	make build
 	$(info * Run service ...)
-	go run $(ROOT_PATH)/cmd/service -dev
+	go run $(ROOT_PATH)/cmd/service
 
 .PHONY: up
 up:

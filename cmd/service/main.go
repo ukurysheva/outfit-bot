@@ -1,29 +1,20 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/joho/godotenv"
-
 	"outfitbot/internal/handlers"
 	openmeteo "outfitbot/internal/pkg/open-meteo"
 	"outfitbot/internal/service"
 )
 
 const (
-	tgTokenEnv    = "TG_TOKEN"
-	tgTokenDevEnv = "TG_TOKEN_DEV"
+	tgTokenEnv = "TG_TOKEN"
 )
 
 func main() {
-	err := godotenv.Load("./.env")
-	if err != nil {
-		log.Fatalf("loading .env file failed: %v", err)
-	}
-
 	botApi, err := tgbotapi.NewBotAPI(getTokenFromEnv())
 	if err != nil {
 		log.Fatalf("telegram create bot api failed: %v", err)
@@ -47,15 +38,7 @@ func main() {
 }
 
 func getTokenFromEnv() string {
-	devArg := flag.Bool("dev", false, "dev")
-	flag.Parse()
-
-	tgTokenEnvName := tgTokenEnv
-	if devArg != nil && *devArg {
-		tgTokenEnvName = tgTokenDevEnv
-	}
-
-	tgToken := os.Getenv(tgTokenEnvName)
+	tgToken := os.Getenv(tgTokenEnv)
 	if tgToken == "" {
 		log.Fatalf("telegram token is not set")
 	}

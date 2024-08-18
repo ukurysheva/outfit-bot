@@ -1,5 +1,9 @@
 services:
   app:
+    environment:
+      TG_TOKEN: ${TG_TOKEN}
+      TG_LOGGER_TOKEN: ${TG_LOGGER_TOKEN}
+      TG_LOGGER_CHAT_ID: ${TG_LOGGER_CHAT_ID}
     build:
       dockerfile: Dockerfile
       context: .
